@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.evergrande.mybatis.mapper.CountryMapper">
+  <resultMap id="BaseResultMap" type="com.evergrande.mybatis.model.Country">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="countryname" jdbcType="VARCHAR" property="countryname" />
+    <result column="countrycode" jdbcType="VARCHAR" property="countrycode" />
+  </resultMap>
+
+  <select id="selectByCountryQueryModel" resultMap="BaseResultMap">
+    select id,countryname,countrycode from country
+    <where>
+      <if test="countryname != null and countryname != ''">
+        countryname like concat('%',concat(#{countryname}, '%'))
+      </if>
+      <if test="countrycode != null and countrycode != ''">
+        and countrycode like concat('%',concat(#{countrycode}, '%'))
+      </if>
+      <if test="id != null">
+        and id = #{id}
+      </if>
+    </where>
+
+  </select>
+
+  <select id="queryByCountryname" resultType="com.evergrande.mybatis.model.Country">
+    <!--added by pn-plugin-->select `countrycode`, `countryname`, `id` from country where `countryname` = #{countryname} order by id ASC
+  </select>
+
+</mapper>
